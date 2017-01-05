@@ -1,0 +1,52 @@
+.wrapper {
+  width: 1000px;
+  height: 600px;
+  border: 1px solid black;
+  position: relative;
+}
+
+.container {
+  width: 100%;
+  /*border: 1px solid black;*/
+  position : absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.shoot {
+  height: 60px;
+  width: 10px;
+  background-color: red;
+  position: relative;
+  margin: 0 auto;
+  bottom: 0px;
+}
+
+.bullet {
+  background: red;
+  height: 50px;
+  width: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#spaceship {
+  height: 50px;
+  width: 100px;
+  background: green;
+  left: 1px;
+  position: relative;
+  margin: 0 auto;
+  /*transition: all 0.5s ease;*/
+}
+
+.alien {
+  background: pink;
+  height: 100px;
+  width: 100px;
+  margin: 0 auto;
+  position: absolute;
+  top: -550px;
+  left: 450px;
+}

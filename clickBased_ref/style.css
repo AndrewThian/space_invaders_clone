@@ -1,0 +1,33 @@
+html,body{height:100%}
+
+.space {cursor:crosshair}
+
+footer {
+    height: 31px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #000
+}
+
+footer .shoot {
+    display:none;
+    width:4px;
+    height:4px;
+    position:absolute;
+    top:-39px;
+    left:100px;
+    z-index:99;
+    background:#000
+}
+
+footer .shooter {
+    display:block;
+    width: 75px;
+    height: 39px;
+    background: url(http://www.urbangap.com/urban12/assets/gennaio/i/navicella.gif) 0 0 no-repeat;
+    position: absolute;
+    top: -39px;
+    left: 0
+}
