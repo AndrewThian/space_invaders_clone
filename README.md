@@ -4,7 +4,7 @@ A space invaders clone with Star Wars theme.
 
 ## Live Version
 
-Where is this deployed online (github pages, heroku etc), give us the link and any access details we need.
+* [live](https://andrewthian.github.io/space_invaders_clone/) - play here!
 
 ## Built With
 
