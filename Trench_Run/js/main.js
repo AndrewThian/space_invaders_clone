@@ -1,33 +1,50 @@
 //============================ global variables ============================//
+// ship //
 var ship
+var ship_hp = 3
+var rate_of_fire = 40
+
+// power up //
 var power_up = [] // attack speed
 var power_up2 = [] // ship speed
-var enemy_arr = []
-var enemy_arr2 = []
-var enemy_arr3 = []
-var number_of_invaders = 13
-var enemy_spacing = 60
-var lazer = []
-var enemy_shots_tick = 0
-var player_shots_tick = 40
-var power_up_counter = 0
 var powerATS_up_fell = false
 var powerMS_up_fell = false
 var power_duration = 0
 var powerup_ats_duration = 200
 var powerup_ms_duration = 200
-var enemy_lazer = []
-var bullet_size = 2
+
+// enemy //
+var enemy_arr = []
+var enemy_arr2 = []
+var enemy_arr3 = []
+var number_of_invaders = 13
+var enemy_spacing = 60
+
+// base
 var base_arr = []
-var ship_hp = 3
 var base_hp = 3
-var game_over = false
-var player_win = false
-var rate_of_fire = 40 // lower number is faster rate
+
+// lazer //
+var lazer = []
+var enemy_lazer = []
+
+// counters //
+var enemy_shots_tick = 0
+var player_shots_tick = 40
+var power_up_counter = 0
+
+// game modifiers //
+var bullet_size = 2
+
+// game modifiers //
 var enemy_rate_of_fire = 80 // lower number is faster rate
 var enemy_speed = 1/2 // lower number is slower movement
 var total_enemy = number_of_invaders*3
 var enemy_left
+
+// end game conditions //
+var game_over = false
+var player_win = false
 
 // image variables //
 var xwing_img
@@ -39,19 +56,24 @@ var powerup2_img
 
 console.log('is game over?? ' + game_over)
 
+// DOM elements //
 var button_start
 var button_refresh
 var score
+var hp_update
 var powerup_time
 var starting_screen
 var win_statment
 var lose_statement
 var mission_briefing
 var title
-var easy_img
-var medium_img
-var hard_img
 
+// buttons for difficulty setting //
+var easy_button
+var medium_button
+var hard_button
+
+// audio //
 var start_song
 var imperial_song
 
@@ -59,6 +81,7 @@ var imperial_song
 function preload () {
   imperial_song = loadSound('audio/imperial march.mp3')
 }
+
 // push new ship into variable //
 function create_ship(hp) {
   if (game_over === false) {
@@ -153,6 +176,7 @@ function checkCollision_ship (lazer_value, secondObject) {
   }
 }
 
+// start button function //
 function start_animation () {
   loop()
   button_start.hide()
@@ -164,6 +188,7 @@ function start_animation () {
   imperial_song.play()
 }
 
+// restart function //
 function restart_animation () {
   location.reload()
 }
@@ -200,17 +225,8 @@ function setup () {
   power_up[0] = new PowerUp()
   power_up2[0] = new PowerUp()
 
-  // DOM manipulation //
-  // images //
-  xwing_img = loadImage('images/xwing.png')
-  xwing_flame_gif = loadImage('images/Fire_Animated_Text_Divider.gif-c200')
-  tiefighter_img = loadImage('images/tiefighter.png')
-  asteroid_img = loadImage('images/asteroid.png')
-  powerup1_img = loadImage('images/r2.png')
-  powerup2_img = loadImage('images/yoda.png')
-
-
-  // input //
+  //============================ DOM manipulation ============================//
+  // input for easy medium hard icon clicks//
   // easy_img = createButton('start!', 'startbutton')
   // easy_img.position(100,500)
   // easy_img.mousePressed(easyfunction)
@@ -226,73 +242,94 @@ function setup () {
   // hard_img.mousePressed(hardfunction)
   // hard_img.class('test')
 
+  // images //
+  xwing_img = loadImage('images/xwing.png')
+  xwing_flame_gif = loadImage('images/Fire_Animated_Text_Divider.gif-c200')
+  tiefighter_img = loadImage('images/tiefighter.png')
+  asteroid_img = loadImage('images/asteroid.png')
+  powerup1_img = loadImage('images/r2.png')
+  powerup2_img = loadImage('images/yoda.png')
+
+  // start button //
   button_start = createButton('start!', 'startbutton')
   button_start.position(540,500)
   button_start.mousePressed(start_animation)
   button_start.class('startbutton')
 
+  // refresh button //
   button_refresh = createButton('restart', 'restartbutton')
   button_refresh.position(1030, 7)
   button_refresh.mousePressed(restart_animation)
   button_refresh.class('restartbutton')
 
+  // starting screen //
   starting_screen = createElement('div')
   starting_screen.attribute('id','starting_screen')
   starting_screen.position(0, 0)
 
+  // win display //
   win_statment = createElement('div')
   win_statment.attribute('id', 'win_statment')
   win_statment.position(400, 240)
   win_statment.html('The Death Star has been destroyed!! </br> PULL OUT SKYWALKER!')
   win_statment.hide()
 
+  // lose display //
   lose_statment = createElement('div')
   lose_statment.attribute('id', 'lose_statment')
   lose_statment.position(410, 240)
   lose_statment.html('Unfortunately, you are not strong with the force, my young padawan..')
   lose_statment.hide()
 
+  // main title display //
   title = createElement('div')
   title.attribute('id', 'title')
   title.position(365, 80)
   title.html('Trench Run')
 
+  // mission briefing display //
   mission_briefing = createElement('div')
   mission_briefing.attribute('id', 'mission_briefing')
   mission_briefing.position(325, 180)
   mission_briefing.html('Believe in yourself Luke and may the force be with you.. </br> r2 will boost your fire rate </br> and try not to forget about master yoda.. </br> arrow keys to move </br> space to fire')
 
+  // updating elements //
   score = createElement('div', 'score')
+  hp_update = createElement('div', 'hp')
   powerup_time = createElement('div', 'power')
 
   start_song = loadSound('audio/star wars theme.mp3', loadStart)
 }
 
 function loadStart() {
-  // start_song.play()
+  // song start
+  start_song.play()
 }
 
 //============================ game / display logic ============================//
 function draw () {
   clear()
 
+  // draw attack power up //
   if (ship.poweredUpATT === true) {
     fill('rgba(6, 250, 6, 0.15)')
     rect(0, 0, width*2, height*2)
-
   }
 
+  // draw movepseed power up //
   if (ship.poweredUpMS === true) {
     fill('rgba(250, 50, 6, 0.15)')
     rect(0, 0, width*2, height*2)
   }
 
-
+  // check game over condition //
   if (ship.isDestroyed === false) {
+    // ship display and move //
     ship.show()
     ship.move()
 
     for (var i = 0; i < power_up.length; i++) {
+      // power up display and move //
       if (power_up_counter > 400 /* time to spawn power up */ && powerATS_up_fell === false) {
         power_up[i].show(powerup1_img)
         power_up[i].move()
@@ -300,6 +337,7 @@ function draw () {
     }
 
     for (var i = 0; i < power_up2.length; i++) {
+      // power up display and move //
       if (power_up_counter > 1200 /* time to spawn power up */ && powerMS_up_fell === false) {
         power_up2[i].show(powerup2_img)
         power_up2[i].move()
@@ -316,18 +354,23 @@ function draw () {
 
     base_draw(base_arr, 0, 255, 0)
 
+    //============================ power logic ============================//
+    // I should really refactor this.......
+
     // power up attack speed logic
     for (var i = 0; i < power_up.length; i++) {
+      // check collision //
       if (power_up[i].collides(ship)) {
         powerATS_up_fell = true
         ship.boostATT()
         power_up[i].disappear()
         console.log('Attack speed power up boost!');
       }
-      // logic for ship power up  //
+      // delete power up  //
       if (power_up[i].toDelete) {
         power_up.splice(i, 1)
       }
+      // if you missed power up //
       if (power_up.length > 0) {
         if (power_up[i].y > height - 10) {
           power_up.splice(i, 1)
@@ -336,32 +379,36 @@ function draw () {
       }
     }
 
+    // change rate of fire back to original //
     function stop_power_up_att () {
       rate_of_fire = 40
     }
 
+    // set the duration back to original //
     function reset_duration_att () {
       power_duration = -1
     }
 
+    // powered up logic //
     if (ship.poweredUpATT === true) {
       rate_of_fire = 10
       if (power_duration > powerup_ats_duration) {
         ship.poweredUpATT = false
         stop_power_up_att()
         reset_duration_att()
-        console.log('buff removed!!');
+        // console.log('buff removed!!');
       }
       power_duration++
     }
 
     // power up move speed
     for (var i = 0; i < power_up2.length; i++) {
+      // power up collide with ship //
       if (power_up2[i].collides(ship)) {
         powerMS_up_fell = true
         ship.boostMS()
         power_up2[i].disappear()
-        console.log('Move speed power up boost!');
+        // console.log('Move speed power up boost!');
       }
       // logic for ship power up  //
       if (power_up2[i].toDelete) {
@@ -391,10 +438,12 @@ function draw () {
         reset_duration_ms()
         console.log('buff removed!!')
       }
+      // count the duration of power up //
       power_duration++
     }
 
     // enemy lazer logic //
+    // loop through enemy lazer //
     for (var i = 0; i < enemy_lazer.length; i++) {
       enemy_lazer[i].show(0, 255, 0)
       enemy_lazer[i].move(-1)
@@ -412,6 +461,7 @@ function draw () {
     }
 
     for (var i = 0; i < enemy_lazer.length; i++) {
+      // loop to check for lazer position //
       if (enemy_lazer.length > 0) {
         // console.log('true')
         // console.log(enemy_lazer[i])
@@ -423,6 +473,7 @@ function draw () {
 
     // ship lazer logic //
     if (lazer.length > 0) {
+      // loop through ship lazer to show and move //
       for (var i = 0; i < lazer.length; i++) {
         lazer[i].show(255, 0, 0)
         lazer[i].move(1)
@@ -453,6 +504,7 @@ function draw () {
 
     // border check function //
     function checkBorderCollision (arr) {
+      // loops to check for edge //
       for (var i = 0; i < arr.length; i++) {
         if (arr[i].x > width - 20 || arr[i].x < 20) {
           edge = true
@@ -463,6 +515,7 @@ function draw () {
     // check if edge touch max width then shift down //
     function checkEdge (arr) {
       if (edge) {
+        // loop through array to shift down //
         for (var i = 0; i < arr.length; i++) {
           arr[i].shiftDown()
         }
@@ -498,11 +551,12 @@ function draw () {
     shiftRow(enemy_arr3)
 
     //============================ enemy firing ============================//
+    // check counters //
     enemy_shots_tick++
     player_shots_tick++
     power_up_counter++
 
-
+    // create randomizing enemy lazer //
     // row 1 //
     createEnemyLazer (enemy_arr, enemy_lazer)
 
@@ -527,23 +581,26 @@ function draw () {
     // } else {
     //   game_over = false
     // }
-
   }
-  // main ship display//
 
+  // check condition //
   if (game_over === true) {
     ship.isDestroyed = true
   }
 
-  // draw function update //
+  // DOM && animation update //
   enemy_left = enemy_arr.length + enemy_arr2.length + enemy_arr3.length
 
   score.html('score: ' + (total_enemy - enemy_left))
   score.position(200, 10)
   score.class('score')
 
+  hp_update.html('shields: ' + ship.shipHp + '/3')
+  hp_update.position(322, 10)
+  hp_update.class('hp_update')
+
   powerup_time.html('power up: ' + (power_duration) + '/200')
-  powerup_time.position(400, 10)
+  powerup_time.position(450, 10)
   powerup_time.class('score')
 
   if (enemy_left === 0) {

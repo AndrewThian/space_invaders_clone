@@ -42,7 +42,14 @@ div {
 .score {
   font-size: 20px;
   z-index: 1;
-  font-family: 'star-wars-font'
+  font-family: 'star-wars-font';
+}
+
+.hp_update {
+  font-size: 20px;
+  z-index: 1;
+  font-family: 'star-wars-font';
+  text-transform: uppercase;
 }
 
 .startbutton {
