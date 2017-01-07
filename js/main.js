@@ -600,7 +600,7 @@ function draw () {
   hp_update.class('hp_update')
 
   powerup_time.html('power up: ' + (power_duration) + '/200')
-  powerup_time.position(450, 10)
+  powerup_time.position(550, 10)
   powerup_time.class('score')
 
   if (enemy_left === 0) {
