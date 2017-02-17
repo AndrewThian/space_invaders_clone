@@ -3,6 +3,7 @@
 A space invaders clone with Star Wars theme.
 
 ## Live Version
+![](http://i.giphy.com/26xBQIlFDOCfPfTZ6.gif)
 
 * [live](https://andrewthian.github.io/space_invaders_clone/) - play here!
 
